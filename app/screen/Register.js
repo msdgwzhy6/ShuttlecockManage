@@ -6,45 +6,46 @@
  * Desc:
  */
 import React, {Component} from "react";
-import {StyleSheet, View} from "react-native";
+import {StyleSheet, Text, View} from "react-native";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
 import {Button, Icon, Input} from "react-native-elements";
+import {REGIST_REQUEST} from "../redux/reducers/authorize";
 
 @connect(
-  state => ({}),
-  dispatch => ({})
+  state => ({
+    authorize: state.authorize,
+  }),
+  dispatch => ({
+    regist: bindActionCreators(REGIST_REQUEST, dispatch)
+  })
 )
-export class Login extends Component {
+export class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
       password: '',
-      isLoading: false,
 
       usernameValid: true,
       passwordValid: true
     };
   }
 
-  handleLogin() {
+  handleRegist() {
     NavUtils.navTo('Home');
-
-    const usernameValid = this.validateUsername()
-    const passwordValid = this.validatePassword()
-    if (usernameValid && passwordValid) {
-      this.setState({isLoading: true})
-      setTimeout(() => {
-        this.setState({isLoading: false})
-      }, 1500)
-    }
+    // const {username, password} = this.state;
+    // const usernameValid = this.validateUsername()
+    // const passwordValid = this.validatePassword()
+    // if (usernameValid && passwordValid) {
+    //   this.props.regist(username, password);
+    // }
   }
 
   validateUsername() {
     const {username} = this.state
-    const usernameValid = username.length > 6
+    const usernameValid = username.length > 0
     this.setState({usernameValid})
     usernameValid || this.usernameInput.shake()
     return usernameValid
@@ -59,19 +60,18 @@ export class Login extends Component {
   }
 
   render() {
-    const {
-      isLoading, username, password,
-      usernameValid, passwordValid
-    } = this.state;
+    const {registering, failReason} = this.props.authorize;
+    const {usernameValid, passwordValid} = this.state;
 
     return (
       <View style={styles.container}>
+        {failReason && <Text>用户名已被占用</Text>}
         <Input
           ref={usernameInput => this.usernameInput = usernameInput}
           errorMessage={'用户名不能为空'}
           displayError={!usernameValid}
           placeholder={'用户名'}
-          onValueChange={username => this.setState({username})}
+          onChangeText={username => this.setState({username})}
         />
         <Input
           ref={passwordInput => this.passwordInput = passwordInput}
@@ -79,12 +79,12 @@ export class Login extends Component {
           displayError={!passwordValid}
           placeholder={'密码'}
           secureTextEntry
-          onValueChange={password => this.setState({password})}
+          onChangeText={password => this.setState({password})}
         />
         <Button
-          title={'登录'}
-          loading={isLoading}
-          onPress={_ => this.handleLogin()}
+          title={'注册'}
+          loading={registering}
+          onPress={_ => this.handleRegist()}
         />
       </View>
     );

@@ -5,3 +5,7 @@
  * Time: 下午6:00
  * Desc:
  */
+import AV from "leancloud-storage";
+import config from "../config/index";
+
+AV.init({...config.leanCloud});

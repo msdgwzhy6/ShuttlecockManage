@@ -5,7 +5,7 @@
  * Time: 上午9:59
  * Desc:
  */
-import {applyMiddleware, createStore} from "redux";
+import {applyMiddleware, compose, createStore} from "redux";
 import createSagaMiddleware from "redux-saga";
 import logger from "redux-logger";
 import {rootReducer} from "./reducer";
@@ -14,15 +14,28 @@ import {
   createReactNavigationReduxMiddleware,
 } from 'react-navigation-redux-helpers';
 
+const middleware = []
+const enhancers = []
+
 const sagaMiddleware = createSagaMiddleware();
 const navMiddleware = createReactNavigationReduxMiddleware(
-  "Login",
+  "root",
   state => state.nav,
 );
 
-const store = createStore(rootReducer,
-  applyMiddleware(sagaMiddleware, logger, navMiddleware)
-);
+middleware.push(sagaMiddleware)
+middleware.push(navMiddleware)
+middleware.push(logger)
+
+// if (ReduxPersist.active) {
+//   enhancers.push(autoRehydrate())
+// }
+
+enhancers.push(applyMiddleware(...middleware))
+
+console.log('创建store');
+
+const store = createStore(rootReducer, compose(...enhancers));
 
 sagaMiddleware.run(rootSaga);
 

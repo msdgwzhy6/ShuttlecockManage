@@ -14,7 +14,7 @@ import {
 } from 'react-navigation-redux-helpers';
 import {BackHandler} from "react-native";
 
-const addListener = createReduxBoundAddListener("Login");
+const addListener = createReduxBoundAddListener("root");
 
 @connect(state => ({
   nav: state.nav

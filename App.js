@@ -13,6 +13,7 @@ import {
 import {Provider} from "react-redux";
 import store from "./app/redux/store";
 import AppWithNavigationState from "./app/routes/AppWithNavigationState";
+import "./app/service"
 
 export default class App extends Component {
   constructor() {

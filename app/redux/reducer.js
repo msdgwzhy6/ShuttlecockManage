@@ -8,9 +8,9 @@
 import {combineReducers} from "redux";
 //非表单特别多的情况不适用redux-form
 import { reducer as form } from 'redux-form/immutable'
-import {login} from "./reducers/login";
-import {nav} from "./reducers/nav";
+import nav from "./reducers/nav";
+import authorize from "./reducers/authorize";
 
 export const rootReducer = combineReducers({
-  nav, form, login
+  nav, form, authorize
 });

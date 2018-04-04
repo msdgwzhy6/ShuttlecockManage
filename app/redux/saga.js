@@ -6,9 +6,10 @@
  * Desc:
  */
 import {takeEvery, put, all} from "redux-saga/effects";
+import authorize from "./sagas/authorize";
 
 export const rootSaga = function* sagas() {
   yield all([
-
+    authorize()
   ]);
 };
