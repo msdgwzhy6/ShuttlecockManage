@@ -4,38 +4,30 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-  Platform,
   StyleSheet,
-  Text,
-  View
 } from 'react-native';
 import AppRouter from "./app/routes/routesBuilder";
+import {Provider} from "react-redux";
+import store from "./app/redux/store";
 
 export default class App extends Component {
+  constructor() {
+    super();
+  }
+
   render() {
     return (
-      <AppRouter/>
+      <Provider store={store}>
+        <AppRouter/>
+      </Provider>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
