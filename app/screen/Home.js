@@ -6,15 +6,15 @@
  * Desc:
  */
 import React, {Component} from "react";
-import {StyleSheet, Text} from "react-native";
+import {Button, StyleSheet, Text} from "react-native";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
 
-// @connect(
-//   state => ({}),
-//   dispatch => ({})
-// )
+@connect(
+  state => ({}),
+  dispatch => ({})
+)
 export class Home extends Component {
 
   constructor(props) {
@@ -24,7 +24,9 @@ export class Home extends Component {
 
   render() {
     return (
-      <Text>Home</Text>
+      <Button title={'Regist'}
+              onPress={_ => this.props.navigation.navigate('Register')}
+      />
     );
   }
 }

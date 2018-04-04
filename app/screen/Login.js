@@ -30,6 +30,8 @@ export class Login extends Component {
   }
 
   handleLogin() {
+    NavUtils.navTo('Home');
+
     const usernameValid = this.validateUsername()
     const passwordValid = this.validatePassword()
     if (usernameValid && passwordValid) {

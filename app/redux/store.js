@@ -10,11 +10,18 @@ import createSagaMiddleware from "redux-saga";
 import logger from "redux-logger";
 import {rootReducer} from "./reducer";
 import {rootSaga} from "./saga";
+import {
+  createReactNavigationReduxMiddleware,
+} from 'react-navigation-redux-helpers';
 
 const sagaMiddleware = createSagaMiddleware();
+const navMiddleware = createReactNavigationReduxMiddleware(
+  "Login",
+  state => state.nav,
+);
 
 const store = createStore(rootReducer,
-  applyMiddleware(sagaMiddleware, logger)
+  applyMiddleware(sagaMiddleware, logger, navMiddleware)
 );
 
 sagaMiddleware.run(rootSaga);

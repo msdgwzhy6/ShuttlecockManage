@@ -6,9 +6,11 @@
  * Desc:
  */
 import {combineReducers} from "redux";
+//非表单特别多的情况不适用redux-form
 import { reducer as form } from 'redux-form/immutable'
 import {login} from "./reducers/login";
+import {nav} from "./reducers/nav";
 
 export const rootReducer = combineReducers({
-  form, login
+  nav, form, login
 });
