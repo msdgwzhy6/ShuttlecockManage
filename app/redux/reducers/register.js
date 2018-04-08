@@ -9,13 +9,12 @@ import {createAction, createReducer} from 'redux-act';
 
 const initialState = {
   loading: false,
-  username: null,
-  failReason: null
+  username: null
 };
 
 export const REGIST_REQUEST = createAction('REGIST_REQUEST', (username, password) => ({username, password}));
 export const REGIST_SUCCESS = createAction('REGIST_SUCCESS');
-export const REGIST_FAIL = createAction('REGIST_FAIL', (failReason) => ({failReason}));
+export const REGIST_FAIL = createAction('REGIST_FAIL');
 
 export default createReducer({
   [REGIST_REQUEST]: (state, {username}) => {
@@ -34,11 +33,10 @@ export default createReducer({
     };
   },
 
-  [REGIST_FAIL]: (state, {failReason}) => {
+  [REGIST_FAIL]: (state) => {
     return {
       ...state,
-      loading: false,
-      failReason
+      loading: false
     };
   }
 }, initialState);

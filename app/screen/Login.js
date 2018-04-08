@@ -16,14 +16,17 @@ import {LOGIN_REQUEST} from "../redux/reducers/login";
 @connect(
   state => ({
     username: state.login.username,
-    loading: state.login.loading,
-    failReason: state.login.failReason,
+    loading: state.login.loading
   }),
   dispatch => ({
     login: bindActionCreators(LOGIN_REQUEST, dispatch)
   })
 )
 export class Login extends Component {
+  static navigationOptions = {
+    header: null
+  }
+
   static propTypes = {};
 
   constructor(props) {
@@ -47,7 +50,7 @@ export class Login extends Component {
 
   render() {
     const {username, password} = this.state;
-    const {loading, failReason} = this.props;
+    const {loading} = this.props;
 
     return (
       <View style={styles.container}>
@@ -72,7 +75,6 @@ export class Login extends Component {
             密码
           </InputItem>
         </List>
-        {failReason && <Text>{failReason}</Text>}
         <Button style={{marginTop: 50}}
                 loading={loading}
                 disabled={loading || !username || !password}

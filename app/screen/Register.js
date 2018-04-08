@@ -10,13 +10,12 @@ import {StyleSheet, Text, View} from "react-native";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
-import {Button, Icon, Input} from "react-native-elements";
 import {REGIST_REQUEST} from "../redux/reducers/register";
+import {Button, InputItem, List, Toast} from "antd-mobile";
 
 @connect(
   state => ({
-    loading: state.register.loading,
-    failReason: state.register.failReason,
+    loading: state.register.loading
   }),
   dispatch => ({
     regist: bindActionCreators(REGIST_REQUEST, dispatch)
@@ -28,9 +27,11 @@ export class Register extends Component {
     this.state = {
       username: '',
       password: '',
+      rePassword: '',
 
-      usernameValid: true,
-      passwordValid: true
+      usernameError: null,
+      passwordError: null,
+      rePasswordError: null,
     };
   }
 
@@ -38,54 +39,101 @@ export class Register extends Component {
     const {username, password} = this.state;
     const usernameValid = this.validateUsername()
     const passwordValid = this.validatePassword()
-    if (usernameValid && passwordValid) {
+    const rePasswordValid = this.validateRePassword()
+    if (usernameValid && passwordValid && rePasswordValid) {
       this.props.regist(username, password);
     }
   }
 
   validateUsername() {
     const {username} = this.state
-    const usernameValid = username.length > 0
-    this.setState({usernameValid})
-    usernameValid || this.usernameInput.shake()
-    return usernameValid
+    if (username.length === 0) {
+      this.setState({usernameError: '用户名不能为空'})
+      return false;
+    }
+    return true
   }
 
   validatePassword() {
     const {password} = this.state
-    const passwordValid = password.length >= 6
-    this.setState({passwordValid})
-    passwordValid || this.passwordInput.shake()
-    return passwordValid
+    if (password.length < 6) {
+      this.setState({passwordError: '密码至少为6位'})
+      return false;
+    }
+    return true
+  }
+
+  validateRePassword() {
+    const {password, rePassword} = this.state
+    if (password !== rePassword) {
+      this.setState({rePasswordError: '两次密码输入不一致'})
+      return false;
+    }
+    return true
+  }
+
+  changeParams(params) {
+    this.setState({
+      ...params,
+      usernameError: null,
+      passwordError: null,
+      rePasswordError: null,
+    })
   }
 
   render() {
-    const {loading, failReason} = this.props;
-    const {usernameValid, passwordValid} = this.state;
+    const {loading} = this.props;
+    const {
+      username, password, rePassword,
+      usernameError, passwordError, rePasswordError
+    } = this.state;
 
     return (
       <View style={styles.container}>
-        {failReason && <Text>{failReason}</Text>}
-        <Input
-          ref={usernameInput => this.usernameInput = usernameInput}
-          errorMessage={'用户名不能为空'}
-          displayError={!usernameValid}
-          placeholder={'用户名'}
-          onChangeText={username => this.setState({username})}
-        />
-        <Input
-          ref={passwordInput => this.passwordInput = passwordInput}
-          errorMessage={'密码至少为6位'}
-          displayError={!passwordValid}
-          placeholder={'密码'}
-          secureTextEntry
-          onChangeText={password => this.setState({password})}
-        />
-        <Button
-          title={'注册'}
-          loading={loading}
-          onPress={_ => this.handleRegist()}
-        />
+        <List>
+          <InputItem
+            clear
+            error={usernameError}
+            onErrorClick={_ => Toast.fail(usernameError)}
+            value={username}
+            onChange={(username) => {
+              this.changeParams({username})
+            }}
+            placeholder="用户名"
+          >
+            用户名
+          </InputItem>
+          <InputItem
+            type="password"
+            error={passwordError}
+            onErrorClick={_ => Toast.fail(passwordError)}
+            value={password}
+            onChange={(password: any) => {
+              this.changeParams({password});
+            }}
+            placeholder="密码"
+          >
+            密码
+          </InputItem>
+          <InputItem
+            type="password"
+            error={rePasswordError}
+            onErrorClick={_ => Toast.fail(rePasswordError)}
+            value={rePassword}
+            onChange={(rePassword: any) => {
+              this.changeParams({rePassword});
+            }}
+            placeholder="重复密码"
+          >
+            重复密码
+          </InputItem>
+        </List>
+        <Button style={{marginTop: 50}}
+                loading={loading}
+                disabled={loading}
+                onClick={_ => this.handleRegist()}>
+          注册
+        </Button>
       </View>
     );
   }
@@ -96,6 +144,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    paddingHorizontal: 20
   },
 });

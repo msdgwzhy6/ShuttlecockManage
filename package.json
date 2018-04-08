@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "android-release": "cd android && ./gradlew assembleRelease",
+    "android-signed": "keytool -genkey -alias my-key-alias -keyalg RSA -validity 40000 -keystore my-release-key.keystore"
   },
   "dependencies": {
     "antd-mobile": "^2.1.8",

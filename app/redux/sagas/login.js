@@ -8,13 +8,17 @@
 import {takeLatest, put} from "redux-saga/effects";
 import AV from "leancloud-storage";
 import {LOGIN_FAIL, LOGIN_REQUEST, LOGIN_SUCCESS} from "../reducers/login";
+import {Toast} from "antd-mobile";
 
 function* LOGIN_REQUEST_HANDLE({payload: {username, password}}) {
   try {
     const user = yield AV.User.logIn(username, password);
     yield put(LOGIN_SUCCESS(user));
+    Toast.success('登陆成功', 0.5);
+    setTimeout(_ => NavUtils.navResetTo('Home'), 500)
   } catch ({code, rawMessage}) {
-    yield put(LOGIN_FAIL(rawMessage));
+    Toast.fail(rawMessage);
+    yield put(LOGIN_FAIL())
   }
 };
 

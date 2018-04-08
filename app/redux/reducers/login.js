@@ -10,14 +10,13 @@ import {createAction, createReducer} from 'redux-act';
 const initialState = {
   loading: false,
   username: '',
-  user: null,
-  failReason: null
+  user: null
 };
 
 export const SET_LOGIN_USERNAME = createAction('SET_LOGIN_USERNAME', (username) => ({username}));
 export const LOGIN_REQUEST = createAction('LOGIN_REQUEST', (username, password) => ({username, password}));
 export const LOGIN_SUCCESS = createAction('LOGIN_SUCCESS', (user) => ({user}));
-export const LOGIN_FAIL = createAction('LOGIN_FAIL', (failReason) => ({failReason}));
+export const LOGIN_FAIL = createAction('LOGIN_FAIL');
 
 export default createReducer({
   [SET_LOGIN_USERNAME]: (state, {username}) => {
@@ -43,11 +42,10 @@ export default createReducer({
     };
   },
 
-  [LOGIN_FAIL]: (state, {failReason}) => {
+  [LOGIN_FAIL]: (state) => {
     return {
       ...state,
-      loading: false,
-      failReason
+      loading: false
     };
   }
 }, initialState);

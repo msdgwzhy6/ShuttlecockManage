@@ -9,10 +9,7 @@ import {takeLatest, put} from "redux-saga/effects";
 import {REGIST_FAIL, REGIST_REQUEST, REGIST_SUCCESS} from "../reducers/register";
 import AV from "leancloud-storage";
 import {SET_LOGIN_USERNAME} from "../reducers/login";
-
-const resultCodeMap = {
-  202: '用户名已被占用'
-};
+import {Toast} from "antd-mobile";
 
 function* REGIST_REQUEST_HANDLE({payload: {username, password}}) {
   try {
@@ -23,10 +20,11 @@ function* REGIST_REQUEST_HANDLE({payload: {username, password}}) {
     yield user.signUp();
     yield put(REGIST_SUCCESS());
     yield put(SET_LOGIN_USERNAME(username));
-    NavUtils.navBack();
+    Toast.success('注册成功', 1)
+    setTimeout(_ => NavUtils.navBack(), 1000)
   } catch ({code, rawMessage}) {
-    console.log(rawMessage)
-    yield put(REGIST_FAIL(resultCodeMap[code]));
+    Toast.fail(rawMessage)
+    yield put(REGIST_FAIL())
   }
 };
 
