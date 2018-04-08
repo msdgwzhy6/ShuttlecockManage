@@ -6,8 +6,9 @@
  * Desc: authorize saga
  */
 import {takeLatest, put} from "redux-saga/effects";
-import {REGIST_FAIL, REGIST_REQUEST, REGIST_SUCCESS} from "../reducers/authorize";
+import {REGIST_FAIL, REGIST_REQUEST, REGIST_SUCCESS} from "../reducers/register";
 import AV from "leancloud-storage";
+import {SET_LOGIN_USERNAME} from "../reducers/login";
 
 const resultCodeMap = {
   202: '用户名已被占用'
@@ -21,12 +22,14 @@ function* REGIST_REQUEST_HANDLE({payload: {username, password}}) {
     user.setPassword(password);
     yield user.signUp();
     yield put(REGIST_SUCCESS());
+    yield put(SET_LOGIN_USERNAME(username));
+    NavUtils.navBack();
   } catch ({code, rawMessage}) {
     console.log(rawMessage)
     yield put(REGIST_FAIL(resultCodeMap[code]));
   }
 };
 
-export default function* authorize() {
+export default function* register() {
   yield takeLatest(REGIST_REQUEST, REGIST_REQUEST_HANDLE)
 };

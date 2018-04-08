@@ -9,6 +9,11 @@ import * as Screens from "../screen";
 
 export const MainRoutes = [
   {
+    id: 'Login',
+    title: 'Login',
+    screen: Screens.Login
+  },
+  {
     id: 'Register',
     title: 'Register',
     screen: Screens.Register

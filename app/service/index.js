@@ -8,4 +8,4 @@
 import AV from "leancloud-storage";
 import config from "../config/index";
 
-AV.init({...config.leanCloud});
+AV.init({...config.leanCloud})

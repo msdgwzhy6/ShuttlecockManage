@@ -8,7 +8,7 @@
 import {createAction, createReducer} from 'redux-act';
 
 const initialState = {
-  registering: false,
+  loading: false,
   username: null,
   failReason: null
 };
@@ -22,7 +22,7 @@ export default createReducer({
     return {
       ...state,
       username,
-      registering: true,
+      loading: true,
       failReason: null
     };
   },
@@ -30,14 +30,14 @@ export default createReducer({
   [REGIST_SUCCESS]: (state) => {
     return {
       ...state,
-      registering: false
+      loading: false
     };
   },
 
   [REGIST_FAIL]: (state, {failReason}) => {
     return {
       ...state,
-      registering: false,
+      loading: false,
       failReason
     };
   }

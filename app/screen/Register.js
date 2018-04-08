@@ -11,11 +11,12 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
 import {Button, Icon, Input} from "react-native-elements";
-import {REGIST_REQUEST} from "../redux/reducers/authorize";
+import {REGIST_REQUEST} from "../redux/reducers/register";
 
 @connect(
   state => ({
-    authorize: state.authorize,
+    loading: state.register.loading,
+    failReason: state.register.failReason,
   }),
   dispatch => ({
     regist: bindActionCreators(REGIST_REQUEST, dispatch)
@@ -34,13 +35,12 @@ export class Register extends Component {
   }
 
   handleRegist() {
-    NavUtils.navTo('Home');
-    // const {username, password} = this.state;
-    // const usernameValid = this.validateUsername()
-    // const passwordValid = this.validatePassword()
-    // if (usernameValid && passwordValid) {
-    //   this.props.regist(username, password);
-    // }
+    const {username, password} = this.state;
+    const usernameValid = this.validateUsername()
+    const passwordValid = this.validatePassword()
+    if (usernameValid && passwordValid) {
+      this.props.regist(username, password);
+    }
   }
 
   validateUsername() {
@@ -60,12 +60,12 @@ export class Register extends Component {
   }
 
   render() {
-    const {registering, failReason} = this.props.authorize;
+    const {loading, failReason} = this.props;
     const {usernameValid, passwordValid} = this.state;
 
     return (
       <View style={styles.container}>
-        {failReason && <Text>用户名已被占用</Text>}
+        {failReason && <Text>{failReason}</Text>}
         <Input
           ref={usernameInput => this.usernameInput = usernameInput}
           errorMessage={'用户名不能为空'}
@@ -83,7 +83,7 @@ export class Register extends Component {
         />
         <Button
           title={'注册'}
-          loading={registering}
+          loading={loading}
           onPress={_ => this.handleRegist()}
         />
       </View>

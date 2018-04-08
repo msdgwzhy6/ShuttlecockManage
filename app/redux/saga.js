@@ -6,10 +6,12 @@
  * Desc:
  */
 import {takeEvery, put, all} from "redux-saga/effects";
-import authorize from "./sagas/authorize";
+import register from "./sagas/register";
+import login from "./sagas/login";
 
 export const rootSaga = function* sagas() {
   yield all([
-    authorize()
+    register(),
+    login()
   ]);
 };
