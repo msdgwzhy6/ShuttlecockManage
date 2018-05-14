@@ -1,6 +1,6 @@
 {
   "presets": ["react-native"],
-  "plugins": ["transform-decorators-legacy"],
+  "plugins": ["transform-decorators-legacy", ["import", { "libraryName": "antd-mobile" }]],
   "env": {
     "production": {
       "plugins": ["transform-remove-console"]

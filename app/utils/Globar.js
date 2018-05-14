@@ -6,5 +6,7 @@
  * Desc: 全局对象
  */
 import NavUtils from "./NavUtils";
+import http from "./HttpUtils"
 
 global.NavUtils = NavUtils;
+global.HTTP = http;

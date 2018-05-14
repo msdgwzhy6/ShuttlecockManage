@@ -10,12 +10,12 @@ import createSagaMiddleware from "redux-saga";
 import logger from "redux-logger";
 import {rootReducer} from "./reducer";
 import {rootSaga} from "./saga";
-import {
-  createReactNavigationReduxMiddleware,
-} from 'react-navigation-redux-helpers';
+import {createReactNavigationReduxMiddleware} from 'react-navigation-redux-helpers';
+import {persistStore, persistReducer} from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+import ReduxPersist from "../config/ReduxPersist"; // defaults to localStorage for web and AsyncStorage for react-native
 
 const middleware = []
-const enhancers = []
 
 const sagaMiddleware = createSagaMiddleware();
 const navMiddleware = createReactNavigationReduxMiddleware(
@@ -27,16 +27,22 @@ middleware.push(sagaMiddleware)
 middleware.push(navMiddleware)
 middleware.push(logger)
 
-// if (ReduxPersist.active) {
-//   enhancers.push(autoRehydrate())
-// }
+let store = createStore(rootReducer, applyMiddleware(...middleware))
 
-enhancers.push(applyMiddleware(...middleware))
+//store 持久化
+if (ReduxPersist.active) {
+  const persistConfig = {
+    key: 'root',
+    storage
+  }
+  const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-console.log('创建store');
+  store = createStore(persistedReducer, applyMiddleware(...middleware))
+  sagaMiddleware.run(rootSaga);
 
-const store = createStore(rootReducer, compose(...enhancers));
+  persistStore(store)
+} else {
+    sagaMiddleware.run(rootSaga);
+}
 
-sagaMiddleware.run(rootSaga);
-
-export default store;
+export default store

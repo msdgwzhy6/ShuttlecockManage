@@ -9,8 +9,13 @@ import * as Screens from "../screen";
 
 export const MainRoutes = [
   {
+    id: 'Login',
+    title: '登录',
+    screen: Screens.Login
+  },
+  {
     id: 'Register',
-    title: 'Register',
+    title: '注册',
     screen: Screens.Register
   },
   {
