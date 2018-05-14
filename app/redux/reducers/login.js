@@ -35,7 +35,7 @@ export default createReducer({
     };
   },
 
-  [LOGIN_SUCCESS]: (state, user) => {
+  [LOGIN_SUCCESS]: (state, {user}) => {
     return {
       ...state,
       loading: false,

@@ -11,7 +11,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
 import {Button, InputItem, List, Stepper, View} from "antd-mobile";
-import {LOGIN_REQUEST} from "../redux/reducers/login";
+import {LOGIN_FAIL, LOGIN_REQUEST} from "../redux/reducers/login";
 
 @connect(
   state => ({
@@ -19,7 +19,8 @@ import {LOGIN_REQUEST} from "../redux/reducers/login";
     loading: state.login.loading
   }),
   dispatch => ({
-    login: bindActionCreators(LOGIN_REQUEST, dispatch)
+    login: bindActionCreators(LOGIN_REQUEST, dispatch),
+    reset: bindActionCreators(LOGIN_FAIL, dispatch),
   })
 )
 export class Login extends Component {
@@ -69,6 +70,7 @@ export class Login extends Component {
             value={password}
             onChange={(password) => {
               this.setState({password});
+              this.props.reset()
             }}
             placeholder="密码"
           >
@@ -85,9 +87,9 @@ export class Login extends Component {
           <TouchableOpacity onPress={_ => NavUtils.navTo('Register')}>
             <Text>注册</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+         {/* <TouchableOpacity>
             <Text>忘记密码</Text>
-          </TouchableOpacity>
+          </TouchableOpacity>*/}
         </View>
       </View>
     );

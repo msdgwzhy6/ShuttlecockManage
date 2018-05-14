@@ -6,7 +6,7 @@
  * Desc:
  */
 export const config = {
-    server: 'http://192.168.2.144:8080/',
+    server: 'http://192.168.2.143:8080/',
     leanCloud: {
         appId: 'Xf37UotBXfRNTrL71R8XxRc5-gzGzoHsz',
         appKey: 'oNBmCwC6RAQQalidJV2z2v68'

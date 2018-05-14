@@ -15,6 +15,7 @@ import HeaderRightIcon from "../component/HeaderRightIcon";
 import {Confirm} from "../component/Confirm";
 import {AdminView} from "./AdminView";
 import {Container, Content} from "native-base/src"
+import {UserView} from "./UserView";
 
 @connect(
   state => ({
@@ -49,10 +50,14 @@ export class Home extends Component {
   }
 
   render() {
+    const {userName} = this.props.user || {}
+    console.log('当前用户', userName)
     return (
       <Container >
         <Content style={styles.container}>
-          <AdminView/>
+            {userName === 'admin' ? (
+                <AdminView/>
+            ) : (<UserView userName={userName}/>)}
         </Content>
       </Container>
     );

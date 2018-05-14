@@ -15,6 +15,7 @@ function* LOGIN_REQUEST_HANDLE({payload: {username, password}}) {
       userName: username,
       password
     })
+      console.log('登录结果', success, object, message)
     if (!success) {
       throw message
     }
