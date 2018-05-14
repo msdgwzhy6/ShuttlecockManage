@@ -67,7 +67,11 @@ export class Login extends Component {
           <InputItem
             type="password"
             value={password}
+<<<<<<< HEAD
             onChange={(password) => {
+=======
+            onChange={(password: any) => {
+>>>>>>> b26c28bf68512a363fc4e22f83167ad70db19585
               this.setState({password});
             }}
             placeholder="密码"

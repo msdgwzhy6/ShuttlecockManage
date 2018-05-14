@@ -12,32 +12,22 @@ import {SET_LOGIN_USERNAME} from "../reducers/login";
 import {Toast} from "antd-mobile";
 
 function* REGIST_REQUEST_HANDLE({payload: {username, password}}) {
-    try {
-        // 新建 AVUser 对象实例
-        // const user = new AV.User();
-        // user.setUsername(username);
-        // user.setPassword(password);
-        // yield user.signUp();
-        // yield put(REGIST_SUCCESS());
-
-
-        const {success, message} = yield HTTP.postJson('register', {
-            userName: username,
-            password,
-        })
-        console.log('注册结果',success, message)
-        if (!success) {
-            throw message
-        }
-        yield put(SET_LOGIN_USERNAME(username));
-        Toast.success('注册成功', 1)
-        setTimeout(_ => NavUtils.navBack(), 1000)
-    } catch (err) {
-        Toast.fail(err)
-        yield put(REGIST_FAIL())
-    }
+  try {
+    // 新建 AVUser 对象实例
+    const user = new AV.User();
+    user.setUsername(username);
+    user.setPassword(password);
+    yield user.signUp();
+    yield put(REGIST_SUCCESS());
+    yield put(SET_LOGIN_USERNAME(username));
+    Toast.success('注册成功', 1)
+    setTimeout(_ => NavUtils.navBack(), 1000)
+  } catch ({code, rawMessage}) {
+    Toast.fail(rawMessage)
+    yield put(REGIST_FAIL())
+  }
 };
 
 export default function* register() {
-    yield takeLatest(REGIST_REQUEST, REGIST_REQUEST_HANDLE)
+  yield takeLatest(REGIST_REQUEST, REGIST_REQUEST_HANDLE)
 };
