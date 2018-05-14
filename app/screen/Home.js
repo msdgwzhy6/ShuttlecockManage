@@ -6,29 +6,62 @@
  * Desc:
  */
 import React, {Component} from "react";
-import {Button, StyleSheet, Text} from "react-native";
+import {Button, StyleSheet, Text, View} from "react-native";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import PropTypes from "prop-types";
+import {LOGOUT_REQUEST} from "../redux/reducers/login";
+import HeaderRightIcon from "../component/HeaderRightIcon";
+import {Confirm} from "../component/Confirm";
+import {AdminView} from "./AdminView";
+import {Container, Content} from "native-base/src"
 
 @connect(
-  state => ({}),
-  dispatch => ({})
+  state => ({
+    user: state.login.user
+  }),
+  dispatch => ({
+    logout: bindActionCreators(LOGOUT_REQUEST, dispatch)
+  })
 )
 export class Home extends Component {
+  static navigationOptions = ({navigation}) => {
+    const {logout} = navigation.state.params || {}
+    return {
+      headerRight: (<HeaderRightIcon icon={'power-off'} iconColor={'#fff'} onPress={logout}/>)
+    }
+  }
 
   constructor(props) {
     super(props);
     this.state = {};
   }
 
+  componentWillMount() {
+    this.props.navigation.setParams({logout: this.logout})
+  }
+
+  logout = () => {
+    Confirm('提示', '确定退出登录吗', [
+      {text: '否', style: 'cancel'},
+      {text: '是', onPress: () => this.props.logout()},
+    ])
+  }
+
   render() {
     return (
-      <Button title={'Regist'}
-              onPress={_ => this.props.navigation.navigate('Register')}
-      />
+      <Container >
+        <Content style={styles.container}>
+          <AdminView/>
+        </Content>
+      </Container>
     );
   }
 }
 
-const styles = StyleSheet.create();
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff'
+  }
+});

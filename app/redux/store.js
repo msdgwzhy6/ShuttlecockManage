@@ -41,11 +41,8 @@ if (ReduxPersist.active) {
   sagaMiddleware.run(rootSaga);
 
   persistStore(store)
-<<<<<<< HEAD
 } else {
-    sagaMiddleware.run(rootSaga);
-=======
->>>>>>> b26c28bf68512a363fc4e22f83167ad70db19585
+  sagaMiddleware.run(rootSaga);
 }
 
 export default store

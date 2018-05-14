@@ -10,13 +10,8 @@ import {persistentStoreBlacklist} from "../redux/reducer";
 
 
 const REDUX_PERSIST = {
-<<<<<<< HEAD
   active: false, // 是否采用持久化策略
   reducerVersion: '1',  // reducer版本，如果版本不一致，将刷新整个持久化仓库
-=======
-  active: true, // 是否采用持久化策略
-  reducerVersion: '3',  // reducer版本，如果版本不一致，将刷新整个持久化仓库
->>>>>>> b26c28bf68512a363fc4e22f83167ad70db19585
   storeConfig: {
     storage: AsyncStorage,  // 采用本地异步存储，react-native必须
     blacklist: persistentStoreBlacklist,  // 从根reducer获取黑名单，黑名单中的reducer不进行持久化保存

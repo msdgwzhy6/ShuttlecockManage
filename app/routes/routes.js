@@ -20,7 +20,7 @@ export const MainRoutes = [
   },
   {
     id: 'Home',
-    title: 'Home',
+    title: '首页',
     screen: Screens.Home
   }
 ];

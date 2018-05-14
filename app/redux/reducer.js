@@ -18,9 +18,5 @@ export const rootReducer = combineReducers({
 
 // 添加persist黑名单，以下这些reducer不需要持久化
 export const persistentStoreBlacklist = [
-<<<<<<< HEAD
-    register, login
-=======
 
->>>>>>> b26c28bf68512a363fc4e22f83167ad70db19585
 ];

@@ -17,6 +17,7 @@ export const SET_LOGIN_USERNAME = createAction('SET_LOGIN_USERNAME', (username) 
 export const LOGIN_REQUEST = createAction('LOGIN_REQUEST', (username, password) => ({username, password}));
 export const LOGIN_SUCCESS = createAction('LOGIN_SUCCESS', (user) => ({user}));
 export const LOGIN_FAIL = createAction('LOGIN_FAIL');
+export const LOGOUT_REQUEST = createAction('LOGOUT_REQUEST');
 
 export default createReducer({
   [SET_LOGIN_USERNAME]: (state, {username}) => {
@@ -46,6 +47,13 @@ export default createReducer({
     return {
       ...state,
       loading: false
+    };
+  },
+
+  [LOGOUT_REQUEST]: (state) => {
+    return {
+      ...state,
+      user: null
     };
   }
 }, initialState);

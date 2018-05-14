@@ -7,10 +7,8 @@
  */
 
 import {Toast} from "antd-mobile";
-<<<<<<< HEAD
 import {config} from '../config'
-=======
->>>>>>> b26c28bf68512a363fc4e22f83167ad70db19585
+import store from "../redux/store"
 
 function handelError(err) {
   Toast.fail(err);
@@ -31,11 +29,11 @@ function beforeRequest(method, params, headers) {
     params = {body: body};
   }
   //认证header添加
-  // const {user} = store.getState().auth;
-  let authHeaders = {
-    "X-Auth-Token": 'token',
-    "X-User-Id": 'userId',
-  };
+  const {user} = store.getState().login;
+  let authHeaders = user ? {
+    "X-Auth-Token": user.token,
+    "X-User-Id": user.id
+  } : {};
   return {params, authHeaders};
 }
 
@@ -48,24 +46,13 @@ function beforeRequest(method, params, headers) {
  * @returns {Promise}
  */
 function request(method, url, oldParams = {}, headers = {}) {
-<<<<<<< HEAD
   const {server} = config //store.getState().app.cfg;
-=======
-  const {server} = ''//store.getState().app.cfg;
->>>>>>> b26c28bf68512a363fc4e22f83167ad70db19585
 
   return new Promise((resolve, reject) => {
     let {params, authHeaders} = beforeRequest(method, oldParams, headers);
-
-<<<<<<< HEAD
     console.log('请求参数:', method, url, params, authHeaders);
 
     fetch(server + url, {
-=======
-    log('请求参数:', method, url, params, authHeaders);
-
-    fetch(url, {
->>>>>>> b26c28bf68512a363fc4e22f83167ad70db19585
       method: method,
       headers: {
         "X-Api-Key": "06a6af829ad9c8d028727117",

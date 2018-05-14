@@ -21,7 +21,7 @@ const routes = MainRoutes.reduce((per, {id, title, screen}) => ({
 }), {});
 
 const MainStack = StackNavigator({...routes}, {
-  initialRouteName: MainRoutes[0].id,
+  initialRouteName: 'Home', //MainRoutes[0].id,
   navigationOptions: {
     headerTintColor: '#fff',
     headerStyle: {
